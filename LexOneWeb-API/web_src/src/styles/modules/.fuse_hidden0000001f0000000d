@@ -1,0 +1,30 @@
+// LexOne brand palette — source of truth: TUDO-Rebranding/ui.txt
+//   blue  = #0313FC  (primary)
+//   white = #FFFFFF
+//   gold  = #AD9C1C  (accent / highlights)
+$primaryClr: #0313FC;
+$secoundaryClr: #EBF8FB; // utility light tint — kept; switch to gold if needed
+$accentClr: #AD9C1C;     // new LexOne gold accent
+$white: #fff;
+
+// Text colors
+$txtClr:#314659;
+$darkTxtClr: #0d1a26;
+$lightTxtClr: #9ca4ab;
+$green:#228d27;
+$red: #ff0000;
+
+// Additional color 
+$greenPrimary: #4ab739;
+$greenSecoundary: #eafee7;
+$darkBg: #444444;
+
+$colorOne: #0313FC; // LexOne blue (was teal #10AB81)
+$colorTwo: #EBF8FB;
+$colorThree: #314659; //Font
+$colorFour: #eeeeee;
+$colorFive : #606060; //Mainly PlaceHolders
+$colorSix: #dee2e6; // Borders
+$colorSeven: #fff;
+$colorEight: #35ba42;
+$colorNine: #f8f8f8;

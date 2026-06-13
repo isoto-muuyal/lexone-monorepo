@@ -1,0 +1,66 @@
+
+#sidebar.active {
+    margin-right: -280px !important;
+}
+#sidebar.active {
+    margin-left: 0px !important;
+}
+.profile-dropdown ul {
+    left: 0% !important;
+    right: auto !important;
+}
+.profile-dropdown ul li a i {
+    margin-left: 10px  !important;
+}
+.half {
+    padding-left: 10px !important;
+}
+.country-select .selected-flag .arrow {
+    left: 5px !important;
+    right: auto !important;
+}   
+.country-select .country-list {
+    right: -95px !important;
+    text-align: right !important;
+}
+.float-right {
+    float: left !important;
+}
+#sidebar ul li a svg {
+    margin-left: 10px !important;
+}
+#content h4 {
+    padding-right: 20px !important;
+}
+.custom-switch .custom-control-label::before {
+    right: 3.25rem !important;
+}
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+    right: calc(4.85rem + 2px) !important;
+}
+.custom-switch .custom-control-label::after {
+    right: calc(3.35rem + 2px) !important;
+}
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: left !important;
+}
+div.dataTables_wrapper div.dataTables_filter input {
+    margin-right: 10px !important;
+}
+.custom-control-label {
+    padding-right: 25px !important;
+}
+@media (max-width:768px){
+#sidebar {
+    margin-left: 0 !important;
+}
+.category .m-r50 {
+    margin-right: 0 !important;
+}
+.table-responsive #example .fa {
+    padding-left: 0 !important;
+}
+.day.d-flex.flex-column.flex-md-row.p-t20.p-r20 {
+    padding-right: 0 !important;
+}
+}

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+$border-radius: 3px;
+$white :#fff;
+$primary: #f2f2f2;
+$animation: pulse;
+$bgBlue :#007bff;
+
+a, a:hover{
+    text-decoration: none;
+    outline: none;
+}
+.centerAlignment{
+    display: table-cell; 
+vertical-align: middle; 
+}
+.mynavbar button:hover {
+    background-color: transparent !important;
+}
+#sidebar ul li a:hover svg g {
+    fill: $bgBlue;
+}
+.borderWhite{
+    border: 2px solid $primary;
+}
+.borderGrey{
+    border: 2px solid #cdcdcd;
+}
+.fontSize13{
+    font-size: 13px;
+}
+.fontSize14{
+    font-size: 14px;
+}
+.fontSize15{
+    font-size: 15px;
+}
+.fontSize17{
+    font-size: 17px;
+}
+.fontSize20{
+    font-size: 20px;
+}
+.fontSize30{
+    font-size: 30px;
+}
+.fontRg{
+    font-weight: 400;
+}
+.fontMt{
+    font-weight: 500;
+}
+.fontSb{
+    font-weight: 600;
+}
+.fontb{
+    font-weight: 700;
+}
+.dnone{
+    display: none
+}
+.blueTxtClr{
+    color: $bgBlue;
+}
+.whiteTxtClr{
+    color: $primary
+}
+.bgWhite{
+    background-color: $white;
+}
+.bgBlue{
+    background: $bgBlue;
+}
+
+
+.borderRadious-3{
+    border-radius: $border-radius;
+}
+.width20{
+    width: 20px
+}
+.width50{
+    width: 50px
+}
+.height40{
+    height: 40px
+}
+.boxShadowNone, .btn:focus, .page-link:focus, .form-control:focus{
+box-shadow: none;
+}
+.boxShadow{
+    box-shadow: 0px 0px 10px 3px rgb(225, 225, 225);
+}

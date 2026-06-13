@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LexOne">
+  <rect width="64" height="64" rx="12" fill="#0A214D"/>
+  <rect x="3" y="3" width="58" height="58" rx="10" fill="none" stroke="#C09B4B" stroke-width="2"/>
+  <text x="32" y="41" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="24" font-weight="700" fill="#C09B4B">LO</text>
+</svg>

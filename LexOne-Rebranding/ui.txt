@@ -1,0 +1,5 @@
+color palette:
+
+blue: rgb(3, 19, 252)
+white: rgb(255, 255, 255)
+gold: rgb(173, 156, 28)

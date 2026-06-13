@@ -1,0 +1,61 @@
+// Font Family
+@font-face {
+    font-family: "AvertaRegular";
+    src: url("../../assets/fonts/AvenirLTStd-Roman.woff2");
+}
+
+@font-face {
+    font-family: "AvertaSemiBold";
+    src: url("../../assets/fonts/AvertaW01-Semibold.woff2");
+}
+
+@font-face {
+    font-family: "AvertaBold";
+    src: url("../../assets/fonts/AvenirLTStd-Black.woff2");
+}
+
+$font-vsm: 0.7500em;
+$font-sm: 0.875em;
+$font-md: 1em;
+$font-lg: 1.125em;
+$font-xl: 1.25em;
+$font-xxl: 1.5em;
+$fR: "AvertaRegular";
+$fM: "AvertaSemiBold";
+$fB: "AvertaBold";
+
+.fR {
+    font-family: $fR;
+}
+
+.fM {
+    font-family: $fM;
+}
+
+.fB {
+    font-family: $fB;
+}
+
+.font-vsm {
+    font-size: $font-vsm;
+}
+
+.font-sm {
+    font-size: $font-sm;
+}
+
+.font-md {
+    font-size: $font-md;
+}
+
+.font-lg {
+    font-size: $font-lg;
+}
+
+.font-xl {
+    font-size: $font-xl;
+}
+
+.font-xxl {
+    font-size: $font-xxl;
+}

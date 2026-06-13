@@ -1,0 +1,291 @@
+@import "./common";
+@import "./padding-margin";
+@import "./sidebar";
+
+// A Surya Style
+#loginform {
+    max-width: 450px;
+    box-shadow: 0px 0px 26px 2px rgba(232, 232, 232, 1);
+}
+
+#loginform input {
+    background-color: #f6f6f6;
+    border: none;
+    color: #0d0d0d;
+
+}
+select {
+    -webkit-appearance: none;
+background-image: url("../images/down-arrow.png");
+background-repeat: no-repeat;
+background-position: 99% 12px;
+}
+#language-selector {
+    width: 120px;
+    background-position: 90% 11px;
+}
+
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+  
+  .number-input {
+    border: 1px solid #ddd;
+    display: inline-flex;
+    height: 35px;
+  }
+  
+  .number-input,
+  .number-input * {
+    box-sizing: border-box;
+  }
+  
+  .number-input button {
+    outline:none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 35px;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+  }
+  
+  .number-input button:before,
+  .number-input button:after {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    width: 10px;
+    height: 2px;
+    background-color: #212121;
+    transform: translate(-50%, -50%);
+  }
+  .number-input button.plus:after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  
+  .number-input input[type=number] {
+    max-width: 5rem;
+    padding: .5rem;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  .bootstrap-tagsinput .tag.label.label-info {
+    background-color: transparent !important;
+    border: 1px solid #007bff;
+    color: #007bff;
+    border-radius: 5px;
+}
+
+/* ANIMATIONS */
+
+.fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+.profile-dropdown {
+
+    input[type="checkbox"] {
+        display: none;
+
+        &:checked {
+            &~ul {
+                display: block;
+                animation: $animation .5s;
+            }
+
+
+        }
+    }
+
+    img {
+        background: darken($primary, 10%);
+        height: 2.5rem;
+        vertical-align: middle;
+        margin-right: 1rem;
+        margin: .5rem .75rem .5rem .5rem;
+        border-radius: 50%;
+    }
+
+    span {
+        vertical-align: sub;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background: #fff;
+        top: 8+
+        654
+        0%;
+        border-radius: $border-radius;
+        box-shadow: 0 6px 0 0 rgba(0, 0, 0, .01), 0 15px 32px 0 rgba(0, 0, 0, .06);
+        z-index: 1;
+        width: 150px !important;
+        right: 0%;
+
+        li {
+            a {
+                display: block;
+                text-decoration: none;
+                color: darken($primary, 50%);
+                font-size: 1rem;
+
+                i {
+                    font-size: 1.3rem;
+                    vertical-align: middle;
+                    margin: 0 .75rem 0 -.25rem;
+                }
+
+                &:hover {
+                    background: darken($primary, 5%);
+                }
+            }
+
+            &:first-child a:hover {
+                border-radius: $border-radius $border-radius 0 0;
+            }
+
+            &:last-child a:hover {
+                border-radius: 0 0 $border-radius $border-radius;
+            }
+        }
+    }
+
+    &>label {
+        color: #333;
+    }
+
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+.half {
+    label {
+        margin-bottom: 0
+    }
+}
+
+.box1 {
+    background: linear-gradient(90deg, #0395dd 0%, #47daf8 100%, #2ddbf2 100%);
+}
+
+.box2 {
+    background: linear-gradient(90deg, #5a3ed2 0%, #b256c9 100%, #b256c9 100%);
+}
+
+.box3 {
+    background: linear-gradient(90deg, #a4d51f 0%, #25e89a 100%, #a4d51f 100%);
+}
+
+.box4 {
+    background: linear-gradient(90deg, #fe961b 0%, #f5b160 100%, #e79d45 100%)
+}
+
+.custom-switch .custom-control-label::before {
+    left: -2.65rem !important;
+    width: 2.65rem !important;
+    height: 1.5rem !important;
+    border-radius: .8rem !important;
+}
+
+.custom-switch .custom-control-label::after {
+    left: calc(-2.45rem + 2px) !important;
+    width: calc(1.5rem - 4px) !important;
+    height: calc(1.5rem - 4px) !important;
+}
+
+.table-responsive #example_wrapper {
+    overflow-x: hidden;
+}
+
+.gj-datepicker-bootstrap [role="right-icon"] button:hover {
+    color: #fff !important;
+    background-color: #3695f9 !important;
+}
+
+
+.ck.ck-content {
+    min-height: 180px;
+}
+
+.materialTab {
+    .nav-link {
+        color: #212529;
+    }
+
+    .nav-tabs .nav-item.show .nav-link,
+    .nav-tabs .nav-link.active {
+        color: #212529;
+        background-color: transparent;
+        border-color: transparent;
+        border-bottom: 2px solid #007bff !important;
+    }
+
+    .nav-tabs {
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .nav-tabs .nav-link:hover {
+        border-color: transparent;
+    }
+
+    .nav-tabs .nav-item {
+        margin-bottom: -2px;
+    }
+}
+
+.nosorting.sorting::before, .nosorting.sorting::after {
+    display: none !important;
+}
+.table-responsive {
+    height: 350px;
+}

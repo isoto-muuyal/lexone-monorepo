@@ -1,0 +1,25 @@
+App name: LexOne
+Descripcion: LexOne ofrecerá inicialmente servicios legales en las siguientes áreas:
+
+Derecho familiar
+Derecho penal
+Derecho civil
+Derecho laboral
+Derecho mercantil
+Derecho corporativo
+Derecho fiscal
+Propiedad intelectual
+Cada abogado contará con un perfil profesional que incluirá:
+
+Especialidades
+Experiencia
+Calificaciones
+Comentarios
+Agenda digital
+Métodos de contacto
+La plataforma también integrará herramientas complementarias como:
+
+Consultas digitales
+Agendamiento online
+Gestión de clientes
+Posicionamiento premium 
