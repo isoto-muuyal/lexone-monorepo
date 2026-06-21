@@ -444,6 +444,24 @@ class TaskerSideBar extends React.Component {
                                         </Link>
                                     </Menu.Item>
 
+                                    <Menu.Item key="10" onClick={this.onClose}>
+                                        <Link to="/tasker/calendar">
+                                            <span className="fM">{i18next.t("Calendar")}</span>
+                                        </Link>
+                                    </Menu.Item>
+
+                                    <Menu.Item key="11" onClick={this.onClose}>
+                                        <Link to="/tasker/clients">
+                                            <span className="fM">{i18next.t("Clients")}</span>
+                                        </Link>
+                                    </Menu.Item>
+
+                                    <Menu.Item key="12" onClick={this.onClose}>
+                                        <Link to="/tasker/cases">
+                                            <span className="fM">{i18next.t("Cases")}</span>
+                                        </Link>
+                                    </Menu.Item>
+
                                     <Menu.Item key="4" onClick={this.onClose}>
                                         <Link to="/tasker/my-services">
                                             <span className="fM">{i18next.t("My Services")}</span>

@@ -30,7 +30,7 @@ $settings = Setting::orderBy('_id', 'desc')->first();
       display: none;
     }
     .pace .pace-progress {
-      background: #F14E16;
+      background: #0A214D;
       position: fixed;
       z-index: 2000;
       top: 0;

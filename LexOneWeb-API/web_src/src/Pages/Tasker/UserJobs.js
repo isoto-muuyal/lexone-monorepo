@@ -5,6 +5,7 @@ import MetaDecorator from '../../components/MetaDecorator';
 import Loader from "react-loader-spinner";
 import Swal from 'sweetalert2';
 import i18next from 'i18next';
+import { isMockToken, MOCK_LAWYER_PROFILE_DETAIL } from '../../utils/mockAuth';
 import moment from 'moment';
 import 'moment/locale/ar';
 var lang = localStorage.getItem('lang');
@@ -33,6 +34,12 @@ class UserJobs extends Component {
     componentDidMount = () =>{
         var user_info = JSON.parse(localStorage.getItem('user'));
         var general_info = JSON.parse(localStorage.getItem('general_info'));
+
+        if (isMockToken(localStorage.getItem('access_token'))) {
+            this.setState({ user_info, general_info, user_profile: MOCK_LAWYER_PROFILE_DETAIL, my_needs: [], is_loading: false, has_loadmore: false });
+            return;
+        }
+
         this.setState({ user_info : user_info,general_info : general_info },()=>{
             this.get_user_profile_info();
             if(general_info.instant_location === 'true') {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LexOneWelcome from '../components/HomePage/LexOneWelcome';
+import LexOneDashboard from '../components/HomePage/LexOneDashboard';
 import axios from 'axios';
 import MetaDecorator from '../components/MetaDecorator';
 import Loader from "react-loader-spinner";
@@ -61,6 +62,8 @@ class Home extends Component {
         }) 
     }
     render() {
+        const user_info = localStorage.getItem('user') !== null ? JSON.parse(localStorage.getItem('user')) : null;
+        const is_logged_in_user = user_info !== null && user_info.type === 'user';
         return (
             <React.Fragment>
                 <div className={ this.state.is_loading === true ?  "loadercls"  : "" }>
@@ -76,7 +79,7 @@ class Home extends Component {
                         />
                     </div>
                     :
-                    <LexOneWelcome />
+                    is_logged_in_user ? <LexOneDashboard /> : <LexOneWelcome />
                 }
                 </div>
             </React.Fragment>

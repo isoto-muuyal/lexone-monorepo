@@ -24,7 +24,7 @@ a, a:hover {
 }
 
 #sidebar ul li a:hover svg g {
-  fill: #007bff;
+  fill: #0A214D;
 }
 
 .borderWhite {
@@ -84,7 +84,7 @@ a, a:hover {
 }
 
 .blueTxtClr {
-  color: #007bff;
+  color: #0A214D;
 }
 
 .whiteTxtClr {
@@ -96,7 +96,7 @@ a, a:hover {
 }
 
 .bgBlue {
-  background: #007bff;
+  background: #0A214D;
 }
 
 .borderRadious-3 {
@@ -950,18 +950,18 @@ a, a:hover {
 }
 
 #sidebar ul li a:hover {
-  color: #007bff;
+  color: #0A214D;
 }
 
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
-  color: #007bff;
+  color: #0A214D;
   background: transparent;
 }
 
 #sidebar ul li.active a:hover svg g,
 #sidebar ul li.hover > a {
-  fill: #007bff;
+  fill: #0A214D;
 }
 
 a[data-toggle="collapse"] {
@@ -971,7 +971,7 @@ a[data-toggle="collapse"] {
 #sidebar ul ul a {
   font-size: 0.9em !important;
   padding-left: 30px !important;
-  /* background: #6d7fcc;*/
+  /* background: #C09B4B;*/
   color: #696969;
 }
 
@@ -993,12 +993,12 @@ a[data-toggle="collapse"] {
 
 #sidebar a.download {
   background: #fff;
-  color: #7386D5;
+  color: #C09B4B;
 }
 
 #sidebar a.article,
 #sidebar a.article:hover {
-  background: #6d7fcc !important;
+  background: #C09B4B !important;
   color: #fff !important;
 }
 
@@ -1135,8 +1135,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 .bootstrap-tagsinput .tag.label.label-info {
   background-color: transparent !important;
-  border: 1px solid #007bff;
-  color: #007bff;
+  border: 1px solid #0A214D;
+  color: #0A214D;
   border-radius: 5px;
 }
 
@@ -1315,7 +1315,7 @@ input[type=number]::-webkit-outer-spin-button {
   color: #212529;
   background-color: transparent;
   border-color: transparent;
-  border-bottom: 2px solid #007bff !important;
+  border-bottom: 2px solid #0A214D !important;
 }
 
 .materialTab .nav-tabs {

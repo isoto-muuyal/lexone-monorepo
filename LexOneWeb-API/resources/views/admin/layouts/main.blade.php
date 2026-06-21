@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ URL::asset('public/admin_assets/scss/style.css') }}">
     <style>
         .bgBlue{
-          background: #F14E16 !important;
+          background: #0A214D !important;
       }
   </style>
 </head>

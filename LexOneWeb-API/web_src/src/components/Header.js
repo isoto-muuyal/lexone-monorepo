@@ -355,13 +355,13 @@ class Header extends React.Component {
 
                         {isHome && (
                             <div className="lexone-header-links d-none d-md-flex align-self-center ml-4">
-                                <a href="#lexone-search">{i18next.t('LexOne Nav Find Lawyers')}</a>
+                                <Link to="/find-lawyers">{i18next.t('LexOne Nav Find Lawyers')}</Link>
                                 <a href="#how-it-works">{i18next.t('LexOne Nav How It Works')}</a>
                                 <Link to="/tasker/tasker-signup">{i18next.t('LexOne Nav For Attorneys')}</Link>
                             </div>
                         )}
 
-                        <div className="align-self-center w-50" id="lexone-search">
+                        <div className="align-self-center w-50">
                         {
                             showSearch &&
                             <NavLocationSearch hideOnResponsive />
@@ -388,7 +388,7 @@ class Header extends React.Component {
                     <div className={ this.props.user && this.props.user.type === "user" ? "d-md-none p-b15 pt-md-0" : this.props.user && this.props.user.type === "tasker" ? "d-none p-b15 pt-md-0" : !this.props.user && "d-md-none p-b15 pt-md-0" }>
                         {isHome && (
                             <div className="lexone-header-links d-flex d-md-none justify-content-center p-b15">
-                                <a href="#lexone-search">{i18next.t('LexOne Nav Find Lawyers')}</a>
+                                <Link to="/find-lawyers">{i18next.t('LexOne Nav Find Lawyers')}</Link>
                                 <a href="#how-it-works">{i18next.t('LexOne Nav How It Works')}</a>
                                 <Link to="/tasker/tasker-signup">{i18next.t('LexOne Nav For Attorneys')}</Link>
                             </div>

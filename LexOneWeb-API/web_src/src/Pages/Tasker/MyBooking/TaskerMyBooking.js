@@ -4,6 +4,7 @@ import axios from 'axios';
 import MetaDecorator from '../../../components/MetaDecorator';  
 import Loader from "react-loader-spinner";
 import i18next from 'i18next';
+import { isMockToken, MOCK_LAWYER_BOOKINGS_ONGOING, MOCK_LAWYER_BOOKINGS_COMPLETED } from '../../../utils/mockAuth';
 
 const { TabPane } = Tabs;
 class TakerMyBooking extends Component {
@@ -42,6 +43,10 @@ class TakerMyBooking extends Component {
         })
     }
     get_ongoing_booking_details = () => {
+        if (isMockToken(localStorage.getItem('access_token'))) {
+            this.setState({ booking_info_ongoing: MOCK_LAWYER_BOOKINGS_ONGOING, has_loadmore: false });
+            return;
+        }
         var booking_info = this.state.booking_info_ongoing;
         const config = {
             headers: {
@@ -94,6 +99,10 @@ class TakerMyBooking extends Component {
         })
     }
     get_completed_booking_details = () => {
+        if (isMockToken(localStorage.getItem('access_token'))) {
+            this.setState({ booking_info_completed: MOCK_LAWYER_BOOKINGS_COMPLETED, is_loading: false, has_loadmore1: false });
+            return;
+        }
         var booking_info = this.state.booking_info_completed;
         const config = {
             headers: {

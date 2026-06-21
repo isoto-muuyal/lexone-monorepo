@@ -390,13 +390,6 @@ class ProfileSideBar extends React.Component {
                                 </Menu>
                             </SimpleBar>
 
-                            <div className="px-4 mb-3">
-
-                                <Button onClick={this.AccountDelete} className="PrimaryBtn lg" block>{i18next.t("Delete Account")}</Button>
-                                <p className="text-danger">{this.state.logout_err}</p>
-
-                            </div>
-
                             <div className="px-4 mb-4">
 
                                 <Button onClick={this.logout} className="PrimaryBtn lg" block>{i18next.t("Logout")}</Button>
@@ -579,6 +572,10 @@ class ProfileSideBar extends React.Component {
                             </div>
                         </div>
                         <UserAccountSetting userInfo={this.props.userInfo} />
+                        <div className="px-3 px-md-4 mb-3">
+                            <Button onClick={this.AccountDelete} className="PrimaryBtn lg" block>{i18next.t("Delete Account")}</Button>
+                            <p className="text-danger">{this.state.logout_err}</p>
+                        </div>
                     </Drawer>
 
                     {/* Deactivate sidebar */}

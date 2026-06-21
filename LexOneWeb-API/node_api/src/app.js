@@ -30,13 +30,17 @@ app.use(i18n.init);
 app.use(cors());
 
 // parse requests of content-type: application/x-www-form-urlencoded
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // default port
 app.set('port', process.env.API_PORT || 3000);
 
-// security middleware 
+// security middleware
 app.use(helmet());
+
+// serve uploaded case documents
+app.use(process.env.DOCS_MEDIA_URL || "/media/documents/", express.static(path.join(__dirname, "public", "documents")));
 
 // request logger middleware, disable in production 
 if (process.env.ENV === "production") {

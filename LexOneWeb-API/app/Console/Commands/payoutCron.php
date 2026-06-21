@@ -116,7 +116,7 @@ class payoutCron extends Command
                     // (commission and tax stay with platform)
                     $amount = $price + $reward;
                     echo "Processing payout for tasker: " . $tasker->name . "\n";
-                    echo "Tasker payout amount: $amount (price: $price + reward: $reward)\n";
+                    echo "Lawyer payout amount: $amount (price: $price + reward: $reward)\n";
                     echo "Platform keeps: commission: $commission + tax: $tax\n";
 
                     $accountStatus = $stripe->accounts->retrieve(

@@ -7,7 +7,8 @@ import axios from 'axios';
 import MetaDecorator from '../../../components/MetaDecorator';  
 import Loader from "react-loader-spinner";
 import i18next from "i18next";
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
+import { isMockToken, MOCK_LAWYER_PROFILE_DETAIL, MOCK_LAWYER_DASHBOARD, MOCK_CLIENTS, MOCK_APPOINTMENTS } from '../../../utils/mockAuth';
 
 
 const Toast = Swal.mixin({
@@ -45,8 +46,9 @@ class TaskerHome extends Component {
             earn_statistics : [],
             filt_type : 'Weekly',
             is_loading : true,
-            // is_loading : true,
-            call_once : false
+            call_once : false,
+            clients: [],
+            appointments: [],
         }
     }
     componentDidMount = () => {
@@ -55,6 +57,19 @@ class TaskerHome extends Component {
     get_tasker_home = () => {
         if(localStorage.getItem('user') !== null) {
             var user_info = JSON.parse(localStorage.getItem('user'));
+
+            if (isMockToken(localStorage.getItem('access_token'))) {
+                this.setState({
+                    user_info,
+                    user_profile: MOCK_LAWYER_PROFILE_DETAIL,
+                    home_info: MOCK_LAWYER_DASHBOARD,
+                    clients: MOCK_CLIENTS,
+                    appointments: MOCK_APPOINTMENTS,
+                    is_loading: false,
+                }, () => this.change_chart_dynamically('Weekly'));
+                return;
+            }
+
             this.setState({
                 user_info : user_info
             },()=>{
@@ -175,64 +190,117 @@ class TaskerHome extends Component {
                                     <div className="box fiveColumn">
                                         <div className="row px-sm-3 px-0">
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5 mb-4 mb-xl-0">
-                                                <div className="my-card p-3">
+                                                <Link to="/tasker/cases" className="my-card p-3 lexone-stat-link">
                                                     <div className="d-flex">
-                                                        <div class="mt-1">
+                                                        <div className="mt-1">
                                                             <span className="align-self-center mr-2 red"></span>
                                                         </div>
                                                         <p className="align-self-center mb-0 font-lg">{ i18next.t('Total Tasks') }</p>
                                                     </div>
                                                     <p className="font-xxl fM mb-0 mt-2">{ this.state.home_info ? this.state.home_info.total_tasks : 0 }</p>
-                                                </div>
+                                                </Link>
                                             </div>
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5 mb-4 mb-xl-0">
-                                                <div className="my-card p-3">
+                                                <Link to="/tasker/my-booking" className="my-card p-3 lexone-stat-link">
                                                     <div className="d-flex">
-                                                        <div class="mt-1">
+                                                        <div className="mt-1">
                                                             <span className="align-self-center mr-2 orange"></span>
                                                         </div>
                                                         <p className="align-self-center mb-0 font-lg">{ i18next.t('Accepted task') }</p>
                                                     </div>
                                                     <p className="font-xxl fM mb-0 mt-2">{ this.state.home_info ? this.state.home_info.upcoming_tasks : 0 }</p>
-                                                </div>
+                                                </Link>
                                             </div>
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5 mb-4 mb-xl-0">
-                                                <div className="my-card p-3">
+                                                <Link to="/tasker/my-booking" className="my-card p-3 lexone-stat-link">
                                                     <div className="d-flex">
-                                                        <div class="mt-1">
+                                                        <div className="mt-1">
                                                             <span className="mr-2 green"></span>
                                                         </div>
                                                         <p className="align-self-center mb-0 font-lg">{ i18next.t('Total Earnings') }</p>
                                                     </div>
                                                     <p className="font-xxl fM mb-0 mt-2">{this.props.general_info && this.props.general_info.currency_symbol } { this.state.home_info ? this.state.home_info.total_earnings : 0 }</p>
-                                                </div>
+                                                </Link>
                                             </div>
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5 mb-4 mb-xl-0">
-                                                <div className="my-card p-3">
+                                                <Link to="/tasker/my-booking" className="my-card p-3 lexone-stat-link">
                                                     <div className="d-flex">
-                                                        <div class="mt-1">
+                                                        <div className="mt-1">
                                                             <span className="align-self-center mr-2 blue"></span>
                                                         </div>
                                                         <p className="align-self-center mb-0 font-lg">{ i18next.t('Completed task') }</p>
                                                     </div>
                                                     <p className="font-xxl fM mb-0 mt-2">{ this.state.home_info ? this.state.home_info.completed_tasks : 0 }</p>
-                                                </div>
+                                                </Link>
                                             </div>
                                             <div className="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-5 mb-4 mb-xl-0">
-                                                <div className="my-card p-3">
+                                                <Link to="/tasker/my-booking" className="my-card p-3 lexone-stat-link">
                                                     <div className="d-flex">
-                                                        <div class="mt-1">
+                                                        <div className="mt-1">
                                                             <span className="mr-2 yellow"></span>
                                                         </div>
                                                         <p className="align-self-center mb-0 font-lg">{ i18next.t('Pending Earnings') }</p>
                                                     </div>
                                                     <p className="font-xxl fM mb-0 mt-2">{this.props.general_info && this.props.general_info.currency_symbol } { this.state.home_info ? this.state.home_info.pending_earnings : 0 }</p>
-                                                </div>
+                                                </Link>
                                             </div>
 
                                         </div>
                                     </div>
                                 </section>
+
+                                {/* Clients section */}
+                                {this.state.clients && this.state.clients.length > 0 && (
+                                <section className="mb-5">
+                                    <div className="d-flex justify-content-between align-items-center mb-3">
+                                        <h4 className="title fM mb-0">Mis Clientes</h4>
+                                        <Link to="/tasker/clients" className="defaultColor font-sm">{ i18next.t('View all') }</Link>
+                                    </div>
+                                    <div className="lexone-clients-grid">
+                                        {this.state.clients.slice(0, 4).map(client => (
+                                            <Link
+                                                key={client.client_id}
+                                                to={`/tasker/clients/${client.client_id}`}
+                                                className="lexone-client-card"
+                                            >
+                                                <div className="lexone-avatar lexone-avatar-sm">
+                                                    {client.name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()}
+                                                </div>
+                                                <div className="lexone-client-card-info">
+                                                    <strong>{client.name}</strong>
+                                                    <span>{client.case_ids.length} caso(s)</span>
+                                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </section>
+                                )}
+
+                                {/* Calendar preview */}
+                                {this.state.appointments && this.state.appointments.length > 0 && (
+                                <section className="mb-5">
+                                    <div className="d-flex justify-content-between align-items-center mb-3">
+                                        <h4 className="title fM mb-0">Próximas citas</h4>
+                                        <Link to="/tasker/calendar" className="defaultColor font-sm">{ i18next.t('View all') }</Link>
+                                    </div>
+                                    <div className="lexone-clients-grid">
+                                        {this.state.appointments.slice(0, 4).map(appt => (
+                                            <Link
+                                                key={appt.appointment_id}
+                                                to="/tasker/calendar"
+                                                className="lexone-client-card"
+                                            >
+                                                <div className={`lexone-appt-dot ${appt.type === 'online' ? 'online' : 'in-person'}`} />
+                                                <div className="lexone-client-card-info">
+                                                    <strong>{appt.title}</strong>
+                                                    <span>{appt.client_name} · {appt.date}</span>
+                                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </section>
+                                )}
+
                                 {
                                     this.state.user_profile && this.state.user_profile.payment_verified === "true" && this.state.user_profile.profile_verified === "true" ?
                                     <>

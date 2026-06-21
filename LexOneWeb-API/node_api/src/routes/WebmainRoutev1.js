@@ -17,8 +17,15 @@ const reviewController = require("../controllers/web/reviewController");
 const paymentController = require("../controllers/web/paymentController");
 const chatController = require("../controllers/web/chatController");
 const logController = require("../controllers/web/logController");
+const calendarRoutes = require("./calendar");
+const clientRoutes = require("./clients");
+const caseRoutes = require("./cases");
 
 // user routes
+router.use("/", calendarRoutes);
+router.use("/", clientRoutes);
+router.use("/", caseRoutes);
+
 router.post("/user/emailexist", userController.emailExists);
 router.post("/user/mobileexists", userController.mobileExists);
 router.post("/user/signup", userController.signUp);

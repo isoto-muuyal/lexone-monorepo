@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
-import { Rate } from 'antd';
+import { Rate, Button, Modal } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import TaskerImageSlide from "../../../../components/TaskerImageSlide";
 import axios from 'axios';
-import MetaDecorator from '../../../../components/MetaDecorator';  
+import MetaDecorator from '../../../../components/MetaDecorator';
 import Loader from "react-loader-spinner";
 import i18next from 'i18next';
+import Swal from 'sweetalert2';
+import { isMockToken, MOCK_LAWYER_PROFILE_DETAIL, MOCK_LAWYER_AVAILABILITY } from '../../../../utils/mockAuth';
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
 
 class TaskerView extends Component {
 
@@ -17,6 +31,9 @@ class TaskerView extends Component {
             review_has_loadmore : true,
             tasker_reviews : [],
             review_page : 0,
+            availability: [],
+            schedule_modal: false,
+            selected_slot: null,
         }
     }
     componentDidMount = () => {
@@ -26,7 +43,31 @@ class TaskerView extends Component {
     tasker_image_err = (ev) => {
         ev.target.src = require("../../../../assets/images/default_user_image_rectangle.png");
     }
+    open_schedule = () => {
+        this.setState({ schedule_modal: true, selected_slot: null });
+    }
+    close_schedule = () => {
+        this.setState({ schedule_modal: false });
+    }
+    confirm_schedule = () => {
+        const { selected_slot, availability } = this.state;
+        if (!selected_slot) return;
+        Toast.fire({
+            icon: 'success',
+            title: i18next.t(`Appointment requested for ${selected_slot.date} ${selected_slot.time}`),
+        });
+        this.setState({
+            schedule_modal: false,
+            availability: availability.map(day => day.date === selected_slot.date
+                ? { ...day, slots: day.slots.filter(s => s !== selected_slot.time) }
+                : day),
+        });
+    }
     get_reviews_by_tasker_id = () => {
+        if (isMockToken(localStorage.getItem('access_token'))) {
+            this.setState({ tasker_reviews: [], review_has_loadmore: false, review_loading: false });
+            return;
+        }
         var tasker_id = this.props.match.params.tasker_id && this.props.match.params.tasker_id;
         var review_page = this.state.review_page;
         axios.get(`${process.env.REACT_APP_BASE_URL}/web/api/v1/reviews/tasker/${tasker_id}/${review_page}/5`)
@@ -75,6 +116,16 @@ class TaskerView extends Component {
         var user_info = JSON.parse(localStorage.getItem('user'));
         var general_info = JSON.parse(localStorage.getItem('general_info'));
         this.setState({ user_info : user_info, general_info : general_info });
+
+        if (isMockToken(localStorage.getItem('access_token'))) {
+            this.setState({
+                tasker_profile: MOCK_LAWYER_PROFILE_DETAIL,
+                availability: MOCK_LAWYER_AVAILABILITY,
+                is_loading: false,
+            });
+            return;
+        }
+
         var tasker_id = this.props.match.params.tasker_id && this.props.match.params.tasker_id;
         axios.get(`${process.env.REACT_APP_BASE_URL}/web/api/v1/user/taskerprofile/${tasker_id}`)
         .then(res => {
@@ -160,9 +211,9 @@ class TaskerView extends Component {
                                                         <span> $ 129</span> / Hr
                                                     </div> */}
                                                 </div>
-                                                {/* <Link to="/User/MarketBooking">
-                                                    <Button className="Btns PrimaryBtn w-100">Hire</Button>
-                                                </Link> */}
+                                                <Button onClick={this.open_schedule} className="PrimaryBtn w-100">
+                                                    {i18next.t("Schedule Appointment")}
+                                                </Button>
                                             </div>
 
                                         </div>
@@ -177,7 +228,19 @@ class TaskerView extends Component {
                                             <p className="mb-0">{this.state.tasker_profile && this.state.tasker_profile.about} </p>
                                         </div>
                                     }
-                                    
+
+                                    {
+                                        this.state.tasker_profile && this.state.tasker_profile.credentials && this.state.tasker_profile.credentials.length > 0 &&
+                                        <div className="mb-4">
+                                            <p className="mb-2 fM">{ i18next.t("Credentials") } :</p>
+                                            <ul className="mb-0 pl-4">
+                                                {this.state.tasker_profile.credentials.map((credential, idx) => (
+                                                    <li key={idx} className="mb-1">{credential}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    }
+
                                     {
                                         this.state.tasker_profile && this.state.tasker_profile.portfolio.length > 0 &&
                                         <div className="mb-4">
@@ -251,6 +314,55 @@ class TaskerView extends Component {
                     </div>
                 }
                 </div>
+
+                <Modal
+                    title={i18next.t("Schedule Appointment")}
+                    visible={this.state.schedule_modal}
+                    onCancel={this.close_schedule}
+                    footer={null}
+                    centered
+                >
+                    {this.state.availability.length === 0 ? (
+                        <p>{i18next.t("No availability at the moment.")}</p>
+                    ) : (
+                        <div className="mb-3">
+                            {this.state.availability.map(day => (
+                                <div key={day.date} className="mb-3">
+                                    <p className="mb-2 fM">{day.day_label} · {day.date}</p>
+                                    <div className="d-flex" style={{ gap: 8, flexWrap: 'wrap' }}>
+                                        {day.slots.length === 0 ? (
+                                            <span className="font-sm lightTxtClr">{i18next.t("No slots left")}</span>
+                                        ) : day.slots.map(time => {
+                                            const is_selected = this.state.selected_slot
+                                                && this.state.selected_slot.date === day.date
+                                                && this.state.selected_slot.time === time;
+                                            return (
+                                                <Button
+                                                    key={time}
+                                                    className={is_selected ? "PrimaryBtn" : "SecondaryBtn"}
+                                                    onClick={() => this.setState({ selected_slot: { date: day.date, time } })}
+                                                >
+                                                    {time}
+                                                </Button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className="d-flex justify-content-end" style={{ gap: 8 }}>
+                        <Button onClick={this.close_schedule}>{i18next.t("Cancel")}</Button>
+                        <Button
+                            onClick={this.confirm_schedule}
+                            className="PrimaryBtn"
+                            disabled={!this.state.selected_slot}
+                        >
+                            {i18next.t("Confirm")}
+                        </Button>
+                    </div>
+                </Modal>
             </React.Fragment>
         );
     }

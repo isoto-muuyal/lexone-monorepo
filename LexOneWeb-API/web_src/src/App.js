@@ -31,6 +31,11 @@ import MyNeeds from './Pages/User/Needs/MyNeeds';
 import BrowseTaskDetail from './Pages/Tasker/BrowseTask/BrowseTaskDetail';
 import TaskerMyBooking from './Pages/Tasker/MyBooking/TaskerMyBooking';
 import TaskerBookingConfirm from './Pages/Tasker/MyBooking/TaskerBookingConfirm';
+import ClientList from './Pages/Tasker/Clients/ClientList';
+import ClientDetail from './Pages/Tasker/Clients/ClientDetail';
+import CaseList from './Pages/Tasker/Cases/CaseList';
+import CaseDetail from './Pages/Tasker/Cases/CaseDetail';
+import CalendarPage from './Pages/Tasker/Calendar/CalendarPage';
 import MyServiceView from './Pages/Tasker/MyServices/MyServiceView';
 import MyPortfolio from './Pages/Tasker/MyPortfolio';
 import ForgotPassword from './components/ForgotPassword';
@@ -49,6 +54,7 @@ import firebase from './components/firebase';
 import UpdatePaymentStatus from './Pages/User/Booking/UpdatePaymentStatus';
 import UpdatePayoutInfo from './Pages/Tasker/UpdatePayoutInfo';
 import Contracts from './components/AdditionalPages/Contracts';
+import FindLawyers from './Pages/User/FindLawyers';
 const mapStateToProps=(props)=> {
   return {
       loginvalue : props.isLogged
@@ -151,6 +157,7 @@ class App extends Component {
                   <Route exact path="/help" component={() => (<Help user_info={this.state.user_info ? this.state.user_info : {} } />)} />
                   <Route exact path="/contactus/:helps_flag" component={() => (<ContactUs user_info = {this.state.user_info ? this.state.user_info : {}} />) } />
                   <Route exact path="/contracts" component={() => (<Contracts user_info = {this.state.user_info ? this.state.user_info : {}} />) } />
+                  <Route exact path="/find-lawyers" component={(props) => (<FindLawyers {...props} user_info={this.state.user_info ? this.state.user_info : {}} />) } />
                   <Route exact path="/privacy-policy" component={() => (<PrivacyPolicy pri_pol_name = { this.state.user_info && this.state.user_info.type === 'tasker' ? this.state.help_info && this.state.help_info.items[1].name : this.state.help_info && this.state.help_info.items[0].name } pri_pol_description = { this.state.user_info && this.state.user_info.type === 'tasker' ? this.state.help_info && this.state.help_info.items[0].description : this.state.help_info && this.state.help_info.items[1].description } />) }  />
                   <Route exact path="/terms-condition" component={() => (<TermsCondition tandc_name = { this.state.user_info && this.state.user_info.type === 'tasker' ? this.state.help_info && this.state.help_info.items[0].name : this.state.help_info && this.state.help_info.items[1].name } tandc_description = { this.state.user_info && this.state.user_info.type === 'tasker' ? this.state.help_info && this.state.help_info.items[0].description : this.state.help_info && this.state.help_info.items[1].description } />)} />
                   <Route exact path="/tasker-terms-condition" component={() => (<TaskerTermsCondition />)} />
@@ -176,6 +183,11 @@ class App extends Component {
                   <Route exact path="/tasker/my-booking" component={(props) => this.state.user_info && this.state.user_info.type !== undefined && this.state.user_info.type === 'tasker' ? (<TaskerMyBooking {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
                   <Route exact path="/tasker/my-booking/detail" component={(props) => this.state.user_info && this.state.user_info.type !== undefined && this.state.user_info.type === 'tasker' ? (<TaskerBookingConfirm {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
                   <Route exact path="/tasker/my-service/view" component={(props) => this.state.user_info && this.state.user_info.type !== undefined && this.state.user_info.type === 'tasker' ? (<MyServiceView {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
+                  <Route exact path="/tasker/clients" component={(props) => this.state.user_info && this.state.user_info.type === 'tasker' ? (<ClientList {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
+                  <Route exact path="/tasker/clients/:client_id" component={(props) => this.state.user_info && this.state.user_info.type === 'tasker' ? (<ClientDetail {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
+                  <Route exact path="/tasker/cases" component={(props) => this.state.user_info && this.state.user_info.type === 'tasker' ? (<CaseList {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
+                  <Route exact path="/tasker/cases/:case_id" component={(props) => this.state.user_info && this.state.user_info.type === 'tasker' ? (<CaseDetail {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
+                  <Route exact path="/tasker/calendar" component={(props) => this.state.user_info && this.state.user_info.type === 'tasker' ? (<CalendarPage {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
                   <Route exact path="/tasker/my-portfolio" component={(props) => this.state.user_info && this.state.user_info.type !== undefined && this.state.user_info.type === 'tasker' ? (<MyPortfolio {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} />
                   {/* <Route exact path="/tasker/add-services" component={(props) => this.state.user_info && this.state.user_info.type !== undefined && this.state.user_info.type === 'tasker' ? (<AddServices {...props} />) : (<Redirect to="/tasker/tasker-login"/>)} /> */}
                   <Route exact path="/tasker/add-services" component={AddServices} />

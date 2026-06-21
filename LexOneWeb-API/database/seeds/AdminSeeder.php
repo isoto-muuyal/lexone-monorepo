@@ -17,9 +17,9 @@ class AdminSeeder extends Seeder
     public function run()
     {
         $admin = Admin::create([
-        	'name' => 'Admin', 
-        	'email' => 'admin@idemand.com',
-            'password' => bcrypt('12345678'),
+            'name' => 'LexOne Admin',
+            'email' => 'admin@lexone.local',
+            'password' => bcrypt('LexOneAdmin123!'),
             'roles' => 'super admin',
         ]);
   

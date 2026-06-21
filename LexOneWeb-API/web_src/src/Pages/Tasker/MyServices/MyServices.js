@@ -6,6 +6,7 @@ import MetaDecorator from '../../../components/MetaDecorator';
 import Loader from "react-loader-spinner";
 import Breadcremb from '../../../components/BreadCremb';
 import i18next from 'i18next';
+import { isMockToken } from '../../../utils/mockAuth';
 
 class MyServices extends Component {
     constructor(props) {
@@ -19,6 +20,10 @@ class MyServices extends Component {
         this.get_tasker_service_categories(); 
     }
     get_tasker_service_categories = () => {
+        if (isMockToken(localStorage.getItem('access_token'))) {
+            this.setState({ tasker_service_category: [], is_loading: false });
+            return;
+        }
         var user_info = JSON.parse(localStorage.getItem('user'));
         var user_id = user_info && user_info.user_id;
 
