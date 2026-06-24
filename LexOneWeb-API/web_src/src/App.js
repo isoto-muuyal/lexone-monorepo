@@ -109,6 +109,9 @@ class App extends Component {
       }
     }
   }
+  handleAuthInvalidated = () => {
+    this.setState({ user_info: null });
+  }
   async get_appdefault(){ 
     if(localStorage.getItem('general_info') !== null) {
       // localStorage.removeItem('general_info');
@@ -142,7 +145,7 @@ class App extends Component {
               <div>
                 <Switch>
                   {/* these routes working with out login */}
-                  <Route exact path="/" component={(props) => this.state.user_info === null ? (<Home {...props}/>) : this.state.user_info && this.state.user_info.type === 'user' ? (<Home {...props}/>) : this.state.user_info.type === 'tasker' && <Redirect to="/tasker"/> } />                  
+                  <Route exact path="/" component={(props) => this.state.user_info === null ? (<Home {...props} onAuthInvalidated={this.handleAuthInvalidated}/>) : this.state.user_info && this.state.user_info.type === 'user' ? (<Home {...props} onAuthInvalidated={this.handleAuthInvalidated}/>) : this.state.user_info.type === 'tasker' && <Redirect to="/tasker"/> } />                  
                   <Route exact path="/user/sub-categories/:cat_id" component={(props) => this.state.user_info === null ? (<SubCategoryLists {...props}/>) : this.state.user_info && this.state.user_info.type === 'user' ? (<SubCategoryLists {...props}/>) : this.state.user_info.type === 'tasker' && <Redirect to="/tasker"/> } /> 
                   <Route exact path="/user/user-login" component={(props) => this.state.user_info === null ? (<UserLogin {...props}/>) : this.state.user_info.type === 'tasker' ? <Redirect to="/tasker"/> : <Redirect to="/"/>} />
                   <Route exact path="/user/user-signup" component={(props) => this.state.user_info === null ? (<UserSignup {...props}/>) : <Redirect to="/"/>} />

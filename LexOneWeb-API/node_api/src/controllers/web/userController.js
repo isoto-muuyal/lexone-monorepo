@@ -827,7 +827,7 @@ exports.userHome = async function (req, res) {
         try {
             const client_ip_addr = req.socket.remoteAddress ? req.socket.remoteAddress : 'randip';
             
-            let userDetails = {};
+            let userDetails = null;
             if(req.body.user_id && req.body.user_id != '') {
                 userDetails = await User.findOne({ userId: req.body.user_id, role: "user" });
             }
@@ -840,10 +840,8 @@ exports.userHome = async function (req, res) {
 
             // if (!userDetails)
             //     return res.status(200).json({ status_code: 401, message: res.__("Invalid User ID") });
-            if(Object.keys(userDetails).length > 0) {
-                if (userDetails.status === 0)
-                    return res.status(200).json({ status_code: 401, message: res.__("Account is disabled") });
-            }
+            if (userDetails && userDetails.status === 0)
+                return res.status(200).json({ status_code: 401, message: res.__("Account is disabled") });
             
 
             let allBanners = await Banner.find({ status: 1 });
@@ -901,10 +899,9 @@ exports.userHome = async function (req, res) {
                     });
                 });
             }
-            let searchString = {};
-            let needsString = {};
-
-            if(userDetails)
+            if(userDetails) {
+                let searchString = {};
+                let needsString = {};
                 searchString.userId = userDetails._id;
                 needsString.userId = userDetails._id;
                 searchString.bookedType = { $in: ['professional', 'marketplace'] };
@@ -912,28 +909,29 @@ exports.userHome = async function (req, res) {
                 needsString.bookedType = { $in: ['userneeds'] };
                 needsString.status = { $in: ["accepted"] };
 
-            let completedBooking = await Booking.find({ $or: [searchString, needsString] }).sort({'updatedAt': -1}).populate("serviceId").populate("subCategory").populate("mainCategory");
-            
-            completedBooking.filter(function (eachTask) {
-                if (eachTask.serviceId != null) {
-                    var name =  (eachTask.mainCategory[langName+'Name']) ? (eachTask.mainCategory[langName+'Name']):eachTask.mainCategory.name;
-                    var subName =  (eachTask.subCategory[langName+'Name']) ? (eachTask.subCategory[langName+'Name']):eachTask.subCategory.name;
-                    recentItems.push({
-                        item_id: eachTask._id,
-                        item_image: process.env.BASE_URL + process.env.SERVICE_MEDIA_URL + eachTask.serviceId.image,
-                        time: eachTask.bookedWhen,
-                        status: eachTask.status,
-                        category_id: eachTask.mainCategory._id,
-                        category_name: name,
-                        category_type: eachTask.mainCategory.type,
-                        location_type: eachTask.mainCategory.locationType,
-                        subcategory_id: eachTask.subCategory._id,
-                        subcategory_name: subName,
-                        description: eachTask.bookedFor,
-                        price: eachTask.total,
-                    });
-                }
-            });
+                let completedBooking = await Booking.find({ $or: [searchString, needsString] }).sort({'updatedAt': -1}).populate("serviceId").populate("subCategory").populate("mainCategory");
+
+                completedBooking.filter(function (eachTask) {
+                    if (eachTask.serviceId != null) {
+                        var name =  (eachTask.mainCategory[langName+'Name']) ? (eachTask.mainCategory[langName+'Name']):eachTask.mainCategory.name;
+                        var subName =  (eachTask.subCategory[langName+'Name']) ? (eachTask.subCategory[langName+'Name']):eachTask.subCategory.name;
+                        recentItems.push({
+                            item_id: eachTask._id,
+                            item_image: process.env.BASE_URL + process.env.SERVICE_MEDIA_URL + eachTask.serviceId.image,
+                            time: eachTask.bookedWhen,
+                            status: eachTask.status,
+                            category_id: eachTask.mainCategory._id,
+                            category_name: name,
+                            category_type: eachTask.mainCategory.type,
+                            location_type: eachTask.mainCategory.locationType,
+                            subcategory_id: eachTask.subCategory._id,
+                            subcategory_name: subName,
+                            description: eachTask.bookedFor,
+                            price: eachTask.total,
+                        });
+                    }
+                });
+            }
             return res.json({ status_code: 200, client_ip_address : client_ip_addr,banner_items: bannerItems, recent_items: recentItems, category_items: categoryItems, feature_items: featuredItems});
 
         }

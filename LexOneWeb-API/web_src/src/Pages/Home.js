@@ -46,8 +46,11 @@ class Home extends Component {
                 else if(res.data.status_code === 401) {
                     localStorage.removeItem('user');
                     localStorage.removeItem('access_token');
+                    if(this.props.onAuthInvalidated) {
+                        this.props.onAuthInvalidated();
+                    }
                     this.props.history.push('/');
-                    window.location.reload(false);
+                    this.setState({ home: {}, is_loading: false });
                 }
                 else {
                     this.setState({ is_loading: false });
