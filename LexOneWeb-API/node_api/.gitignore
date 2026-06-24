@@ -1,7 +1,0 @@
-node_modules/
-node_modules2/
-.env
-.env.local
-.DS_Store
-npm-debug.log*
-src/public/documents/

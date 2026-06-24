@@ -1,3 +1,7 @@
 LexOneIOS.zip
 webBackup.tar.gz
 LexOneWeb-API/storage/logs/
+
+# Split into standalone repos: isoto-muuyal/lexone-web and isoto-muuyal/lexone-api
+LexOneWeb-API/web_src/
+LexOneWeb-API/node_api/
