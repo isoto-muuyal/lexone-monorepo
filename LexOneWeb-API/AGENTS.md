@@ -3,6 +3,9 @@
 ## Scope
 This repo covers the **web frontend** (`web_src/`, CRA/React) and **Node API** (`node_api/`, Express + Mongoose + Socket.io). Android (`../LexOneAndroid`) and iOS (`../LexOneIOS`) are separate repos with their own `AGENTS.md`.
 
+## Infrastructure
+See [INFRA.md](./INFRA.md) for every external/managed service this project depends on (AWS EC2/ECR, MongoDB Atlas, SES, MailerSend, Firebase, the `lex-one.online` domain/nginx setup) — read it before touching deploy config, `.env` shape, or anything DNS/TLS-related.
+
 ## Dev setup
 - Frontend: `cd web_src && npm start` (CRA, `NODE_OPTIONS=--openssl-legacy-provider`). Node v24 may hang the dev server before "Compiled successfully!" — use an older Node (18/20) via nvm if it doesn't compile.
 - Mock auth: `web_src/.env` has `REACT_APP_MOCK_AUTH=true` — demo login via `mockAuth.js` (`demo.user@lexone.local` / `LexOneDemo123!`). No API needed for frontend-only work.
@@ -25,4 +28,8 @@ This repo covers the **web frontend** (`web_src/`, CRA/React) and **Node API** (
 ## Planned next
 - `agent_api/` (new, separate Python/FastAPI service, Gemini-backed) will eventually replace `simulateAiLawyerMatch` via a `/agent/chat` endpoint. Not started yet.
 - Switch frontend Clients/Cases/Calendar pages from mock data to the new API endpoints, one at a time.
-- Deploy: `.github/workflows/deploy.yml` builds separate Docker images for `web` and `api` and deploys both to an EC2 instance via `docker-compose.prod.yml` on push to `main`. The API container persists uploaded case documents in a named volume (`api_documents` → `/app/src/public/documents`) so files survive redeploys.
+- DNS: add A records for `api.lex-one.online` and `ws.lex-one.online` (apex/`www` already point at the EC2 box), then run `certbot --nginx` for each — see [INFRA.md](./INFRA.md#domain-lex-oneonline).
+- Decide if/when to migrate data from the legacy `tudo_new` prod DB into the new Atlas `lexone_new` DB.
+
+## Deploy
+- `.github/workflows/deploy.yml` builds `web` and `api` images, pushes to **AWS ECR** (not GHCR), and deploys each to its own folder on the EC2 box (`/home/ubuntu/apps/lexone-api/`, `/home/ubuntu/apps/lexone-web/`) via `deploy/lexone-api/docker-compose.yml` / `deploy/lexone-web/docker-compose.yml`. The API container persists uploaded case documents in a named volume (`api_documents` → `/app/src/public/documents`). Full infra details in [INFRA.md](./INFRA.md).
