@@ -1,0 +1,7 @@
+services:
+  web:
+    image: ${IMAGE_URI}
+    container_name: lexone-web
+    restart: unless-stopped
+    ports:
+      - "4000:80"

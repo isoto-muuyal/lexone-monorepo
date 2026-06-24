@@ -34,20 +34,26 @@ local reference doc, same author).
   No other new billable AWS resources were created (no new EC2 instance,
   no new Elastic IP, no RDS) — this reuses the existing box.
 
-## CI/CD: GitHub Actions (`isoto-muuyal/lexone-monorepo`)
+## CI/CD: GitHub Actions (split repos)
 
-`.github/workflows/deploy.yml` builds both images, pushes to ECR, uploads
-`deploy/lexone-api/docker-compose.yml` and `deploy/lexone-web/docker-compose.yml`
-to their EC2 folders, then `docker compose pull && up -d` over SSH on push to
-`main`. Repo secrets:
+The original `lexone-monorepo` was split into standalone repos per
+STORY-013; each has its own deploy pipeline now:
+
+- `isoto-muuyal/lexone-api` ← `node_api/`, deploys to `/home/ubuntu/apps/lexone-api/`
+- `isoto-muuyal/lexone-web` ← `web_src/`, deploys to `/home/ubuntu/apps/lexone-web/`
+
+Each repo's `.github/workflows/deploy.yml` builds its image, pushes to its
+ECR repo, uploads `deploy/docker-compose.yml` to its EC2 folder, then
+`docker compose pull && up -d` over SSH on push to `main`. Both confirmed
+working end-to-end. Repo secrets (set independently on each repo):
 
 | Secret | Purpose |
 |---|---|
 | `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` | **Currently the account's admin IAM user creds** (reused from local `aws configure`), not a scoped CI-only user. Matches what's already done on other repos in this account, but worth tightening later to an ECR-push-only IAM user if this project's risk profile changes. |
 | `AWS_REGION` | `us-east-2` |
-| `ECR_REPOSITORY_API` / `ECR_REPOSITORY_WEB` | `lexone-api` / `lexone-web` |
+| `ECR_REPOSITORY` | `lexone-api` (on the api repo) / `lexone-web` (on the web repo) |
 | `EC2_HOST` / `EC2_USERNAME` / `EC2_SSH_KEY` / `EC2_PORT` | SSH target for deploy |
-| `REACT_APP_GOOGLE_MAP_API_KEY`, `REACT_APP_FIREBASE_*` | Frontend build-time vars (see Firebase section) — these end up in the public JS bundle regardless, stored as secrets only to keep them out of the tracked workflow file |
+| `REACT_APP_GOOGLE_MAP_API_KEY`, `REACT_APP_FIREBASE_*` (web repo only) | Frontend build-time vars (see Firebase section) — these end up in the public JS bundle regardless, stored as secrets only to keep them out of the tracked workflow file |
 
 The EC2 box itself pulls from ECR via an **instance IAM role**
 (`Role-AmazonEC2ContainerRegistryReadOnly-forEC2Instance`), not the secrets
@@ -106,13 +112,13 @@ Firebase/Google Cloud console if not already done.
 
 ## Domain: `lex-one.online`
 
-- Apex + `www` → `3.15.106.208`, cert issued (`lex-one.online`,
-  `www.lex-one.online`), proxies to `localhost:4000` (web).
-- `api.lex-one.online` and `ws.lex-one.online` — nginx vhosts are deployed
-  (HTTP only, proxying to `:4001` / `:4002`), but **DNS A records for these
-  two subdomains were not yet created** as of 2026-06-23. Certbot can't
-  issue certs for them until DNS resolves. Add the A records, then run:
-  ```
-  sudo certbot --nginx -d api.lex-one.online
-  sudo certbot --nginx -d ws.lex-one.online
-  ```
+All four hostnames resolve to `3.15.106.208` and have valid Let's Encrypt
+certs (expire 2026-09-22, auto-renew configured via certbot):
+
+- `lex-one.online` / `www.lex-one.online` → `localhost:4000` (web)
+- `api.lex-one.online` → `localhost:4001` (api REST)
+- `ws.lex-one.online` → `localhost:4002` (api chat/socket.io)
+
+`https://lex-one.online` confirmed serving the real React app (200).
+`api.`/`ws.` return 404 at `/` over HTTPS — expected, those apps have no
+root route, not a deploy issue.

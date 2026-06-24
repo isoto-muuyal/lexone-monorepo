@@ -2,7 +2,7 @@
   "name": "",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://tudofyapp.com/web/",
+  "homepage": "/",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@ctrl/react-adsense": "^1.7.0",

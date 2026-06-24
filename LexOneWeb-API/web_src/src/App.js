@@ -135,7 +135,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <BrowserRouter history={createBrowserHistory} basename="/web">
+          <BrowserRouter history={createBrowserHistory}>
             <Header user={this.state.user_info && this.state.user_info} />
             <ScrollRestoration />
             <div className="center_pos">

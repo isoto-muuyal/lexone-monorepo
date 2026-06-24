@@ -1,0 +1,15 @@
+services:
+  api:
+    image: ${IMAGE_URI}
+    container_name: lexone-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "4001:3000"
+      - "4002:8081"
+    volumes:
+      - api_documents:/app/src/public/documents
+
+volumes:
+  api_documents:

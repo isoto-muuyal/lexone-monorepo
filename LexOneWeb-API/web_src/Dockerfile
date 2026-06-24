@@ -37,7 +37,7 @@ ENV REACT_APP_NODE_ENV=$REACT_APP_NODE_ENV \
     REACT_APP_GOOGLE_ONE_TAP_SIGNIN_CLIENT_ID=$REACT_APP_GOOGLE_ONE_TAP_SIGNIN_CLIENT_ID
 
 COPY package*.json ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 COPY . .
 RUN npm run build

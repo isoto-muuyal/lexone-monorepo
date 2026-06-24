@@ -25,7 +25,7 @@ i18n.configure({
 cron.schedule("*/1 * * * *", async function(req, res) { 
     
     let appSettings = await Setting.findOne({});
-    if (appSettings.stripeChange == "1") {
+    if (appSettings && appSettings.stripeChange == "1") {
         let tasker = await User.updateMany({ role: 'tasker' }, {$set: {accountId: null}},{multi: true});
         
         let taskerservice = await User.find({ "role": 'tasker'});
