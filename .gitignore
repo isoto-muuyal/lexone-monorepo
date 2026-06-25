@@ -5,3 +5,7 @@ LexOneWeb-API/storage/logs/
 # Split into standalone repos: isoto-muuyal/lexone-web and isoto-muuyal/lexone-api
 LexOneWeb-API/web_src/
 LexOneWeb-API/node_api/
+
+# Contains real credentials, must not be committed (GitGuardian leak cleanup)
+LexOneWeb-API/.env
+LexOneWeb-API/backups/022225/web_src/.env
