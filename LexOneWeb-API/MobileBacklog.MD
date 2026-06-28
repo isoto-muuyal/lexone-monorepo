@@ -2,6 +2,8 @@
 
 This file tracks web-only features that need mobile equivalents. Features are built against mock data until backend endpoints are ready.
 
+**Before building any Despacho or Cases screen, read [Endpoints.md](./Endpoints.md)** — it documents every despacho (legal office) and cases endpoint (auth, request/response shapes, and which screen each one powers).
+
 ---
 
 ## 1. Tasker "Clients" module (new)
