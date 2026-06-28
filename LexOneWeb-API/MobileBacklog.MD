@@ -47,6 +47,25 @@ This file tracks web-only features that need mobile equivalents. Features are bu
 
 ---
 
+## 7. Despacho (legal office) accounts + Cases sharing (new)
+**Status: TODO**
+- PIN-based despacho signup/signin (4-digit PIN, not password).
+- Post-signin roster picker (assistant vs. one of the lawyers), then per-lawyer PIN signin into the normal tasker dashboard.
+- "Agregar abogado" form (seat-capped, upsell message on `409` using `lawyer_seat_price`).
+- Case detail "Compartir con colegas" — multi-select sharing with despacho colleagues (`GET /tasker/cases/:tasker_id/colleagues`, `POST /tasker/cases/:case_id/assign`).
+- See [Endpoints.md](./Endpoints.md) "Despacho (Legal Office) Accounts" and "Cases" for full endpoint contracts.
+
+---
+
+## 8. Tasker subscription plan (new)
+**Status: TODO**
+- Account Plan screen: trial countdown, storage used/limit bar, Basic vs. Pro plan-selection cards.
+- Data/endpoints: `GET /tasker/plan/:tasker_id`, `POST /tasker/plan/:tasker_id` — see [Endpoints.md](./Endpoints.md) "Tasker Subscription Plan".
+- No real payment step this phase — plan selection is direct, no checkout UI needed.
+- No mobile equivalent needed for the Admin Panel (web-only staff tool).
+
+---
+
 ## Next Steps
 This section lists tasks to be implemented once the corresponding API functionality is completed in the backend project.
 
@@ -54,3 +73,5 @@ This section lists tasks to be implemented once the corresponding API functional
 2. **Wiring Cases Module:** Connect Case List/Detail and document uploads to `/web/api/v1/tasker/cases/:tasker_id`.
 3. **Calendar Integration:** Implement the agenda view using `/web/api/v1/tasker/appointments/:tasker_id`.
 4. **AI Search Realization:** Replace simulated matching in `FindLawyersActivity` with the `agent_api/` service once ready.
+5. **Despacho + Cases Sharing:** Implement §7 above once design/UX for the PIN-based flow is ready.
+6. **Subscription Plan Screen:** Implement §8 above, wiring the Account Plan screen to the real endpoints (already live in `node_api`, no mock needed).
