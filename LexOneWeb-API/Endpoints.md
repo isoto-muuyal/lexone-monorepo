@@ -10,6 +10,38 @@ Documents the endpoints added for the **Despacho (legal office) accounts** and
 
 ---
 
+## Lawyer Search
+
+### `GET /lawyers/search`
+Full-text search across active lawyers. Returns results in alphabetical order. No auth required — this is a public discovery endpoint.
+
+- **Auth:** none
+- **Query params:**
+  - `q` (optional) — search string matched case-insensitively against lawyer `name`, `about`, and `location` using a MongoDB `$or` regex. Omitting `q` returns all active lawyers.
+- **Response:**
+  ```json
+  {
+    "status_code": 200,
+    "lawyers": [
+      {
+        "user_id": "string",
+        "name": "string",
+        "about": "string",
+        "rating": "number | null",
+        "location": "string",
+        "user_image": "string | null",
+        "plan": "trial | basic | pro"
+      }
+    ]
+  }
+  ```
+- **Example:** `GET /web/api/v1/lawyers/search?q=familia+Mexico`
+- **Use for:** the "Find Lawyers" conversational search screen. On the web this is the backend for `FindLawyers.js`. On mobile (`FindLawyersActivity`), call this endpoint with the user's query string and render each lawyer card from the response. There is currently no AI/MCP routing layer — this is a plain database search. Future: results will be re-ranked by `plan` (Pro first) once a dedicated AI search service is ready.
+
+> **Case search on the lawyer dashboard** is client-side only — the mobile app should load `GET /tasker/cases/:tasker_id`, hold the list in memory, and score/filter locally by splitting the query into words and counting matches across `reference_id`, `description`, and `client_name`. No separate search endpoint exists.
+
+---
+
 ## Despacho (Legal Office) Accounts
 
 A despacho is a group account managed by an "asistente" that can onboard up
