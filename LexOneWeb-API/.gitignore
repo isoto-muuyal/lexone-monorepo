@@ -1,4 +1,5 @@
 node_api/node_modules
+backups/
 /public/hot
 /public/storage
 /storage/*.key
