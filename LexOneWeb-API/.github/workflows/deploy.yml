@@ -55,6 +55,7 @@ jobs:
             REACT_APP_FIREBASE_STORAGE_BUCKET=${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
             REACT_APP_FIREBASE_MSG_SENDID=${{ secrets.REACT_APP_FIREBASE_MSG_SENDID }}
             REACT_APP_FIREBASE_APP_ID=${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+            REACT_APP_FIREBASE_MEASURE_ID=${{ secrets.REACT_APP_FIREBASE_MEASURE_ID }}
           tags: ${{ steps.ecr-login.outputs.registry }}/${{ secrets.ECR_REPOSITORY_WEB }}:latest
 
   deploy:
