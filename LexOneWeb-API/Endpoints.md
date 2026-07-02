@@ -13,15 +13,18 @@ Documents the endpoints added for the **Despacho (legal office) accounts** and
 ## Despacho (Legal Office) Accounts
 
 A despacho is a group account managed by an "asistente" that can onboard up
-to `maxSeats` (default 10) lawyers who share clients/cases. Despacho and
-despacho-added-lawyer accounts authenticate with a 4-digit PIN instead of a
-password.
+to `maxSeats` (default 10) lawyers who share clients/cases. Sign-in is
+two-stage: **(1)** the despacho's generic office email + password (shared by
+everyone in the office) gets you a despacho-role token, then **(2)** the
+person picks who they are from the roster and confirms their own 4-digit PIN
+(unique per assistant/lawyer) to actually reach a dashboard. The password is
+never shared between people — only the PIN distinguishes identities.
 
 ### `POST /despacho/signup`
 Creates a new despacho (asistente) account. No phone/OTP collected.
 
 - **Auth:** none
-- **Body** (urlencoded): `contact_name`, `contact_email`, `pin` (4 digits), `address`, `office_address`
+- **Body** (urlencoded): `contact_name`, `contact_email`, `password` (min 6 chars, shared office login), `pin` (4 digits, the assistant's own identity PIN), `address`, `office_address`
 - **Response:**
   ```json
   { "status_code": 200, "user_id": "...", "access_token": "...", "name": "...", "email": "...", "type": "despacho" }
@@ -29,12 +32,12 @@ Creates a new despacho (asistente) account. No phone/OTP collected.
 - **Use for:** the "Soy Despacho" signup screen. Store `access_token`/`user_id` and treat this session like any other login — `type: "despacho"` is the role to branch UI on.
 
 ### `POST /despacho/signin`
-Signs in an existing despacho with email + PIN (not password).
+**Stage 1.** Signs in with the despacho's office email + password (not PIN — every person in the office shares this login).
 
 - **Auth:** none
-- **Body** (urlencoded): `email`, `pin`
+- **Body** (urlencoded): `email`, `password`
 - **Response:** same shape as signup.
-- **Use for:** despacho login screen. After this call, fetch `/despacho/roster` to show the "choose who you are" picker (assistant vs. one of the lawyers) before navigating anywhere — this token alone only grants despacho-role endpoints (`roster`, `lawyersignin`, `addlawyer`), not the tasker dashboard.
+- **Use for:** despacho login screen. After this call, fetch `/despacho/roster` to show the "choose who you are" picker (assistant vs. one of the lawyers) — this token alone only grants despacho-role endpoints (`roster`, `assistantsignin`, `lawyersignin`, `addlawyer`), not a dashboard.
 
 ### `GET /despacho/roster`
 Lists the despacho's own identity plus every lawyer added under it.
@@ -50,10 +53,18 @@ Lists the despacho's own identity plus every lawyer added under it.
     ]
   }
   ```
-- **Use for:** the post-signin picker screen — render the assistant row (→ assistant dashboard) and one row per lawyer (→ prompts for that lawyer's PIN, then calls `lawyersignin`).
+- **Use for:** the post-signin picker screen — render the assistant row and one row per lawyer; clicking either reveals that identity's PIN input (stage 2).
+
+### `POST /despacho/assistantsignin`
+**Stage 2 (assistant identity).** Confirms the assistant's own PIN after the password sign-in above.
+
+- **Auth:** despacho JWT
+- **Body** (urlencoded): `pin`
+- **Response:** same shape as `/despacho/signin` (a fresh despacho-role token).
+- **Use for:** clicking the assistant row in the roster picker → enter PIN → `Enter` key or button submits → on success, navigate to the despacho/assistant dashboard.
 
 ### `POST /despacho/lawyersignin`
-Signs a specific lawyer (under this despacho) into a normal **tasker**-role session, using their PIN. This is how a lawyer "becomes themselves" after the despacho's assistant has already signed in.
+**Stage 2 (lawyer identity).** Signs a specific lawyer (under this despacho) into a normal **tasker**-role session, using their own PIN. This is how a lawyer "becomes themselves" after the office password sign-in.
 
 - **Auth:** despacho JWT
 - **Body** (urlencoded): `tasker_id` (the lawyer's `user_id` from the roster), `pin`
